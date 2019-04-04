@@ -4,6 +4,7 @@ using namespace std;
 
 int main()
 {
-    cout << "Hddccorld!" << endl;
+
+    cout << "this is array!" << endl;
     return 0;
 }
