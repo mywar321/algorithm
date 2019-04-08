@@ -6,5 +6,4 @@ CONFIG -= qt
 SOURCES += \
     array.cpp
 
-HEADERS += \
-    array.h
+HEADERS +=
