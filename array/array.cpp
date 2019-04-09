@@ -1,4 +1,7 @@
-﻿#include <iostream>
+﻿/*
+** 动态增长的数组
+*/
+#include <iostream>
 #include <assert.h>
 
 using std::cout;
