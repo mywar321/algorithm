@@ -1,5 +1,5 @@
-#include <iostream>
-
+﻿#include <iostream>
+#include <assert.h>
 
 using std::cout;
 using std::endl;
@@ -35,7 +35,7 @@ int DynamicArray::addData(int newNum)
         int *new_data = new int[m_length*2];
         assert(new_data != nullptr);   //说明内存不足
 
-        memcpy(new_data, m_data, sizeof(int) * static_cast<uint>(m_length));
+        memcpy(new_data, m_data, sizeof(int) * static_cast<unsigned int>(m_length));
 
         new_data[m_size] = newNum;
         m_size++;
