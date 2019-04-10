@@ -2,4 +2,5 @@ TEMPLATE = subdirs
 
 SUBDIRS += \
     array \
-    LinkedList
+    LinkedList \
+    Stack
