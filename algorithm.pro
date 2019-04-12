@@ -3,4 +3,5 @@ TEMPLATE = subdirs
 SUBDIRS += \
     array \
     LinkedList \
-    Stack
+    Stack \
+    Queue
