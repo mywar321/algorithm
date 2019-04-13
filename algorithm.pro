@@ -4,4 +4,5 @@ SUBDIRS += \
     array \
     LinkedList \
     Stack \
-    Queue
+    Queue \
+    Sort
