@@ -5,4 +5,5 @@ SUBDIRS += \
     LinkedList \
     Stack \
     Queue \
-    Sort
+    Sort \
+    BinarySearch
