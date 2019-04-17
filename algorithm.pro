@@ -6,4 +6,5 @@ SUBDIRS += \
     Stack \
     Queue \
     Sort \
-    BinarySearch
+    BinarySearch \
+    BinaryTree
