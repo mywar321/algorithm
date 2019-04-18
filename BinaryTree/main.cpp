@@ -1,5 +1,5 @@
 ﻿#include <iostream>
-
+#include <queue>
 using namespace std;
 
 struct Node{
@@ -16,12 +16,15 @@ public:
 
     int height();
     void preOrder();
+    void levelOrder();
 private:
     Node *root;
 
     void createNode(Node* &node);
+    void deleteNode(Node* &node);
     int height_recursive(Node *node);
     void preOrder_recursive(Node *node);
+    void levelOrder_recursive(queue<Node *> &level_queue);
 };
 
 
@@ -30,18 +33,20 @@ int main()
     BinaryTree tree;
     cout <<tree.height() << endl;
     tree.preOrder();
+    tree.levelOrder();
     cout << "Hello World!" << endl;
     return 0;
 }
 
-BinaryTree::BinaryTree()
+BinaryTree::BinaryTree():
+    root(nullptr)
 {
     createNode(root);
 }
 
 BinaryTree::~BinaryTree()
 {
-
+    deleteNode(root);
 }
 
 int BinaryTree::height()
@@ -52,6 +57,13 @@ int BinaryTree::height()
 void BinaryTree::preOrder()
 {
     preOrder_recursive(root);
+}
+
+void BinaryTree::levelOrder()
+{
+    queue<Node *> level_queue;
+    level_queue.push(root);
+    levelOrder_recursive(level_queue);
 }
 
 void BinaryTree::createNode(Node* &node)
@@ -74,6 +86,16 @@ void BinaryTree::createNode(Node* &node)
 
 }
 
+void BinaryTree::deleteNode(Node* &node)
+{
+    if (node == nullptr)
+        return;
+    deleteNode(node->left);
+    deleteNode(node->right);
+    delete node;
+    node = nullptr;
+}
+
 int BinaryTree::height_recursive(Node *node)
 {
     if(node ==nullptr)
@@ -92,4 +114,18 @@ void BinaryTree::preOrder_recursive(Node *node)
     cout << node->val << ",";
     preOrder_recursive(node->left);
     preOrder_recursive(node->right);
+}
+
+void BinaryTree::levelOrder_recursive(queue<Node *> &level_queue)
+{
+    if (level_queue.empty())
+        return;
+    Node *node = level_queue.front();
+    level_queue.pop();
+    cout << node->val << ",";
+    if (node->left != nullptr)
+        level_queue.push(node->left);
+    if (node->right != nullptr)
+        level_queue.push(node->right);
+    levelOrder_recursive(level_queue);
 }
