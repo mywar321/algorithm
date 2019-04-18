@@ -7,4 +7,5 @@ SUBDIRS += \
     Queue \
     Sort \
     BinarySearch \
-    BinaryTree
+    BinaryTree \
+    BinarySearchTree
