@@ -8,4 +8,5 @@ SUBDIRS += \
     Sort \
     BinarySearch \
     BinaryTree \
-    BinarySearchTree
+    BinarySearchTree \
+    Heap
