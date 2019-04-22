@@ -17,11 +17,13 @@ public:
     Node* minNode();
     void midOrder();  //二叉搜索树的中序遍历输出即是有序输出
     void preOrder();
+    void invert();
 private:
     Node *root = nullptr;
 
     void midOrder_recursive(Node *node);
     void preOrder_recursive(Node *node);
+    Node* invert_recursive(Node *node);
 };
 
 
@@ -41,6 +43,7 @@ int main()
         cout << "not include value 10" <<endl;
 
     cout << tree.minNode()->val << endl;
+#if 0 //删除节点的测试
     tree.preOrder();
     cout <<endl;
     tree.deleteNode(7);
@@ -57,7 +60,10 @@ int main()
     cout <<endl;
     tree.deleteNode(6);
     tree.preOrder();
+#endif
 
+    tree.invert();
+    tree.preOrder();
     cout << "Hello World!" << endl;
     return 0;
 }
@@ -181,6 +187,11 @@ void BinarySearchTree::preOrder()
     preOrder_recursive(root);
 }
 
+void BinarySearchTree::invert()
+{
+    invert_recursive(root);
+}
+
 void BinarySearchTree::midOrder_recursive(Node *node)
 {
     if (node == nullptr)
@@ -199,6 +210,17 @@ void BinarySearchTree::preOrder_recursive(Node *node)
     cout << node->val << ",";
     preOrder_recursive(node->left);
     preOrder_recursive(node->right);
+}
+
+Node* BinarySearchTree::invert_recursive(Node *node)
+{
+    if (node == nullptr)
+        return nullptr;
+
+    Node *temp = node->left;
+    node->left = invert_recursive(node->right);
+    node->right = invert_recursive(temp);
+    return node;
 }
 
 
