@@ -26,34 +26,41 @@ private:
     size_t size = 0;
     size_t count = 0;
 };
-void heapify(vector<int> &vi,size_t n,size_t i) { // n表示堆内数据数量
-    size_t maxIndex = i;
+//堆排序
+void heapify(int array[],int n,int i) { // n表示堆内数据数量
+    int maxIndex = i;
     while (true) {
-        if (2*i <= n && vi[i] < vi[2 * i])
+        if (2*i <= n && array[i] < array[2 * i])
             maxIndex = 2 * i;
-        if (2*i+1 <= n && vi[maxIndex] < vi[2*i + 1])
+        if (2*i+1 <= n && array[maxIndex] < array[2*i + 1])
             maxIndex = 2*i + 1;
         if (maxIndex == i)
             break;
-        swap(vi[i], vi[maxIndex]);
+        swap(array[i], array[maxIndex]);
         i = maxIndex;
     }
 }
-//堆排序
-void build_heap(vector<int> &vi) {
-    size_t n = vi.size()-1;
-    for (size_t i=n/2;i>0;--i) { //从倒数第一个非叶子节点开始自上而下堆化
-        heapify(vi, n, i);
+void build_heap(int array[], int n) {
+
+    for (int i=n/2;i>0;--i) { //从倒数第一个非叶子节点开始自上而下堆化
+        heapify(array, n, i);
+    }
+}
+void heap_sort(int array[], int n) {
+    build_heap(array, n-1);    //首先以原数组建堆
+    for (int i=n-1;i > 1;i--) { //将堆顶元素取出，堆容量-1，依次堆化剩余数组元素
+        swap(array[1],array[i]);
+        heapify(array, i-1, 1);
     }
 }
 
-void heap_sort(vector<int> &vi) {
-    build_heap(vi);    //首先以原数组建堆
-    for (size_t i=vi.size()-1;i > 1;i--) { //将堆顶元素取出，堆容量-1，依次堆化剩余数组元素
-        swap(vi[1],vi[i]);
-        heapify(vi, i-1, 1);
-    }
-}
+/*
+** 堆的应用：1.优先级队列，2.求TOP K，3.求中位数
+*/
+
+//2.求一组数据中前K大的数
+
+
 int main()
 {
 #if 0
@@ -68,10 +75,14 @@ int main()
     cout << heap.heapTop() << endl;
 #endif
 
-    vector<int> vi_sort = {0,3,5,67,23,10,1,2,9};
-    heap_sort(vi_sort);
-    for(auto it : vi_sort)
-        cout << it << ",";
+    int a[100];
+    a[0] = 0;
+    for(int i=1;i<100;i++)
+        a[i] = rand()%1000;
+    int n = sizeof(a)/sizeof(int);
+    heap_sort(a, n);
+    for(int i=0;i<n;i++)
+        cout << a[i] << ",";
 
 
     cout << "Hello World!" << endl;
