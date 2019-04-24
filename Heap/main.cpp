@@ -40,6 +40,7 @@ void heapify(int array[],int n,int i) { // n表示堆内数据数量
         i = maxIndex;
     }
 }
+
 void build_heap(int array[], int n) {
 
     for (int i=n/2;i>0;--i) { //从倒数第一个非叶子节点开始自上而下堆化
@@ -58,8 +59,48 @@ void heap_sort(int array[], int n) {
 ** 堆的应用：1.优先级队列，2.求TOP K，3.求中位数
 */
 
-//2.求一组数据中前K大的数
 
+//最小堆
+void heapify_min(int array[],int n,int i) {
+    int minIndex = i;
+    while (true) {
+        if (2*i <= n && array[i] > array[2 * i])
+            minIndex = 2 * i;
+        if (2*i+1 <= n && array[minIndex] > array[2*i + 1])
+            minIndex = 2*i + 1;
+        if (minIndex == i)
+            break;
+        swap(array[i], array[minIndex]);
+        i = minIndex;
+    }
+}
+void build_min_heap(int array[], int n) {
+
+    for (int i=n/2;i>0;--i) { //从倒数第一个非叶子节点开始自上而下堆化
+        heapify_min(array, n, i);
+    }
+}
+/*输出一组数据中前K大的数*/
+void topK(int array[], int n, int k)
+{
+    if (k > n || k<=0)
+        return;
+
+    int *heap = new int[k+1];
+    memcpy(heap,array,(k+1)*sizeof (int));
+    build_min_heap(heap, k); //todo：构建最小堆
+    for (int i=k+1;i<n;++i) {
+        if (array[i] >= heap[1]) { //依次遍历元素，如果比堆顶元素大，则代替堆顶元素，调整堆。
+            heap[1] = array[i];
+            heapify_min(heap, k, 1);
+        }
+    }
+
+    for (int i=1;i<k+1;i++) {
+        cout << heap[i] << ",";
+    }
+    delete[] heap;
+}
 
 int main()
 {
@@ -74,7 +115,7 @@ int main()
     heap.remove_top();
     cout << heap.heapTop() << endl;
 #endif
-
+#if 0
     int a[100];
     a[0] = 0;
     for(int i=1;i<100;i++)
@@ -83,7 +124,19 @@ int main()
     heap_sort(a, n);
     for(int i=0;i<n;i++)
         cout << a[i] << ",";
+#endif
 
+#if 1
+    int a[100];
+    a[0] = 0;
+    for(int i=1;i<100;i++)
+        a[i] = rand()%100;
+    int n = sizeof(a)/sizeof(int);
+    topK(a, n, 3);
+    cout << endl;
+    for(int i=1;i<n;i++)
+        cout << a[i] << ",";
+#endif
 
     cout << "Hello World!" << endl;
     return 0;
