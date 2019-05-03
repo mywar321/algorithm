@@ -94,16 +94,18 @@ void merge_sort_r(int a[], int low, int high)
     int k = 0;
 
     while (k < size) {
-        if (a[i] <= a[j]){
-            temp[k] = a[i];
-            i++;
+        if (i > mid) {
+            temp[k++] = a[j++];
+            continue;
         }
-        else {
-            temp[k] = a[j];
-            j++;
+        if (j > high) {
+            temp[k++] = a[i++];
+            continue;
         }
-        k++;
+        temp[k++] = (a[i] <= a[j] ? a[i++] : a[j++]);
     }
+
+
     for (int m=0;m<size;m++) {
         a[low] = temp[m];
         low++;
@@ -131,6 +133,7 @@ int main()
         arr[i] = rand()%50;
     }
     merge_sort(arr, 50);
+    cout << endl;
     for (int i=0;i<50;i++) {
         cout << arr[i] <<",";
     }
