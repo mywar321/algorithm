@@ -74,24 +74,66 @@ void insert_sort(vector<int> &vi)
 
 }
 /*归并排序*/
-void merge_sort(vector<int> &vi)
-{
+//void merge_array(int a[],int low,int high)
+//{
+//    if (low >= high)
 
+//}
+void merge_sort_r(int a[], int low, int high)
+{
+    if (low >= high)
+        return;
+
+    int mid = low + (high-low)/2;
+    merge_sort_r(a,low, mid);
+    merge_sort_r(a,mid+1,high);
+    int size = high-low+1;
+    int *temp = new int[size];
+    int i = low;
+    int j = mid+1;
+    int k = 0;
+
+    while (k < size) {
+        if (a[i] <= a[j]){
+            temp[k] = a[i];
+            i++;
+        }
+        else {
+            temp[k] = a[j];
+            j++;
+        }
+        k++;
+    }
+    for (int m=0;m<size;m++) {
+        a[low] = temp[m];
+        low++;
+    }
+    delete[] temp;
+}
+void merge_sort(int a[],int n)
+{
+    merge_sort_r(a,0,n-1);
 }
 
 
 
 int main()
 {
-    vector<int> vi = {1,2,4,6,3,5};
+//    vector<int> vi = {1,2,4,6,3,5};
     //bubble_sort(vi);
-    q_sort(vi,0,vi.size()-1);
+    //q_sort(vi,0,vi.size()-1);
     //insert_sort(vi);
-    for (index_t i=0;i<vi.size();i++) {
-        cout << vi[i] << ",";
+//    for (index_t i=0;i<vi.size();i++) {
+//        cout << vi[i] << ",";
+//    }
+    int *arr = new int[50];
+    for (int i=0;i<50;i++) {
+        arr[i] = rand()%50;
     }
-
-
+    merge_sort(arr, 50);
+    for (int i=0;i<50;i++) {
+        cout << arr[i] <<",";
+    }
     cout << "Hello World!" << endl;
     return 0;
 }
