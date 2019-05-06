@@ -30,10 +30,10 @@ private:
 void heapify(int array[],int n,int i) { // n表示堆内数据数量
     int maxIndex = i;
     while (true) {
-        if (2*i <= n && array[i] < array[2 * i])
-            maxIndex = 2 * i;
-        if (2*i+1 <= n && array[maxIndex] < array[2*i + 1])
-            maxIndex = 2*i + 1;
+        if (2*i+1 < n && array[i] < array[2*i+1])
+            maxIndex = 2*i+1;
+        if (2*i+2 < n && array[maxIndex] < array[2*i+2])
+            maxIndex = 2*i+2;
         if (maxIndex == i)
             break;
         swap(array[i], array[maxIndex]);
@@ -43,15 +43,15 @@ void heapify(int array[],int n,int i) { // n表示堆内数据数量
 
 void build_heap(int array[], int n) {
 
-    for (int i=n/2;i>0;--i) { //从倒数第一个非叶子节点开始自上而下堆化
+    for (int i=n/2-1;i>=0;--i) { //从倒数第一个非叶子节点开始自上而下堆化
         heapify(array, n, i);
     }
 }
 void heap_sort(int array[], int n) {
-    build_heap(array, n-1);    //首先以原数组建堆
-    for (int i=n-1;i > 1;i--) { //将堆顶元素取出，堆容量-1，依次堆化剩余数组元素
-        swap(array[1],array[i]);
-        heapify(array, i-1, 1);
+    build_heap(array, n);    //首先以原数组建堆
+    for (int i=n-1;i > 0;i--) { //将堆顶元素取出，堆容量-1，依次堆化剩余数组元素
+        swap(array[0],array[i]);
+        heapify(array, i, 0);
     }
 }
 
@@ -64,10 +64,10 @@ void heap_sort(int array[], int n) {
 void heapify_min(int array[],int n,int i) {
     int minIndex = i;
     while (true) {
-        if (2*i <= n && array[i] > array[2 * i])
-            minIndex = 2 * i;
-        if (2*i+1 <= n && array[minIndex] > array[2*i + 1])
-            minIndex = 2*i + 1;
+        if (2*i+1 < n && array[i] > array[2*i+1])
+            minIndex = 2*i+1;
+        if (2*i+2 < n && array[minIndex] > array[2*i+2])
+            minIndex = 2*i+2;
         if (minIndex == i)
             break;
         swap(array[i], array[minIndex]);
@@ -76,7 +76,7 @@ void heapify_min(int array[],int n,int i) {
 }
 void build_min_heap(int array[], int n) {
 
-    for (int i=n/2;i>0;--i) { //从倒数第一个非叶子节点开始自上而下堆化
+    for (int i=n/2-1;i>=0;--i) { //从倒数第一个非叶子节点开始自上而下堆化
         heapify_min(array, n, i);
     }
 }
@@ -86,21 +86,22 @@ void topK(int array[], int n, int k)
     if (k > n || k<=0)
         return;
 
-    int *heap = new int[k+1];
-    memcpy(heap,array,(k+1)*sizeof (int));
+    int *heap = new int[k];
+    memcpy(heap,array,k*sizeof (int));
     build_min_heap(heap, k); //todo：构建最小堆
-    for (int i=k+1;i<n;++i) {
+    for (int i=k;i<n;++i) {
         if (array[i] >= heap[1]) { //依次遍历元素，如果比堆顶元素大，则代替堆顶元素，调整堆。
-            heap[1] = array[i];
-            heapify_min(heap, k, 1);
+            heap[0] = array[i];
+            heapify_min(heap, k, 0);
         }
     }
 
-    for (int i=1;i<k+1;i++) {
+    for (int i=0;i<k;i++) {
         cout << heap[i] << ",";
     }
     delete[] heap;
 }
+// 动态增加的数组求中位数 ////////////////////////////////////////
 
 
 
@@ -120,8 +121,8 @@ int main()
 #if 0
     int a[100];
     a[0] = 0;
-    for(int i=1;i<100;i++)
-        a[i] = rand()%1000;
+    for(int i=0;i<100;i++)
+        a[i] = rand()%100;
     int n = sizeof(a)/sizeof(int);
     heap_sort(a, n);
     for(int i=0;i<n;i++)
@@ -131,12 +132,12 @@ int main()
 #if 1
     int a[100];
     a[0] = 0;
-    for(int i=1;i<100;i++)
+    for(int i=0;i<100;i++)
         a[i] = rand()%100;
     int n = sizeof(a)/sizeof(int);
     topK(a, n, 3);
     cout << endl;
-    for(int i=1;i<n;i++)
+    for(int i=0;i<n;i++)
         cout << a[i] << ",";
 #endif
 
